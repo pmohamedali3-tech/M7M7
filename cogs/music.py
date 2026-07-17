@@ -31,6 +31,16 @@ now_playing = {}
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        if not discord.opus.is_loaded():
+            try:
+                discord.opus.load_opus(r'C:\Users\compumarts\AppData\Local\Programs\Python\Python312\Lib\site-packages\discord\bin\libopus-0.x64.dll')
+                print("[OK] Opus loaded")
+            except Exception as e:
+                try:
+                    discord.opus.load_opus(discord.opus._OpusLibrary._default_filename)
+                    print("[OK] Opus loaded (default)")
+                except Exception as e2:
+                    print(f"[ERROR] Could not load opus: {e2}")
 
     def get_queue(self, guild_id):
         if guild_id not in queues:
@@ -86,7 +96,7 @@ class Music(commands.Cog):
         if not vc:
             return
 
-        source = discord.FFmpegOpusAudio(song_info['url'], **FFMPEG_OPTIONS)
+        source = discord.FFmpegOpusAudio(song_info['url'], executable=FFMPEG_PATH, **FFMPEG_OPTIONS)
 
         def after_playing(error):
             if error:
@@ -118,7 +128,7 @@ class Music(commands.Cog):
                 await self.play_song_direct(guild, vc, song_info)
 
     async def play_song_direct(self, guild, vc, song_info):
-        source = discord.FFmpegOpusAudio(song_info['url'], **FFMPEG_OPTIONS)
+        source = discord.FFmpegOpusAudio(song_info['url'], executable=FFMPEG_PATH, **FFMPEG_OPTIONS)
 
         def after_playing(error):
             if error:
