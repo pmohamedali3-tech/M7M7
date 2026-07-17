@@ -144,14 +144,6 @@ async def servers_list(ctx):
 
 
 if __name__ == "__main__":
-    env_token = os.getenv("BOT_TOKEN", "")
-    print(f"[DEBUG] BOT_TOKEN from env: {'SET (' + str(len(env_token)) + ' chars)' if env_token else 'EMPTY'}")
-    print(f"[DEBUG] CWD: {os.getcwd()}")
-    print(f"[DEBUG] .env exists: {os.path.exists('.env')}")
-    print(f"[DEBUG] All env vars with BOT/GEMINI:")
-    for k, v in sorted(os.environ.items()):
-        if "BOT" in k.upper() or "GEMINI" in k.upper():
-            print(f"  {k} = {v[:10]}...")
     if not BOT_TOKEN:
         print("[ERROR] BOT_TOKEN not found! Please create a .env file with your bot token.")
         print("Copy .env.example to .env and fill in your bot token.")
